@@ -12,7 +12,7 @@ env/
 venv/
 
 # Dataset & Audio Artifacts
-data/
+data/LJSpeech-1.1/wavs/
 *.tar.bz2
 *.tar.gz
 *.zip
