@@ -440,8 +440,8 @@ class Decoder(nn.Module):
         self.encoder_outputs = encoder_outputs
         self.encoder_mask = encoder_mask
 
-    def _bos_frame(self, B):
-        start_frame_zeros = torch.zeros(B, 1, self.config.num_mels)
+    def _bos_frame(self, B, device="cpu"):
+        start_frame_zeros = torch.zeros(B, 1, self.config.num_mels, device=device)
         return start_frame_zeros
 
     # def decode(self, mel_step):
@@ -563,8 +563,8 @@ class Decoder(nn.Module):
     
     @torch.inference_mode()
     def inference(self, encoder_output, max_decode_steps=1000):
-
-        start_feature_vector = self._bos_frame(B=1).squeeze(0)
+        device = encoder_output.device
+        start_feature_vector = self._bos_frame(B=1, device=device).squeeze(1)
 
         self._init_decoder(encoder_output, encoder_mask=None)
 
