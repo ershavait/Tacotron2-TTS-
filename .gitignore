@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# Dataset & Audio Artifacts
+data/
+*.tar.bz2
+*.tar.gz
+*.zip
+*.npy
+*.wav
+
+# Training outputs & checkpoints
+work_dir/
+wandb/
+.accelerate/
+
+# IDE
+.vscode/
+.idea/
