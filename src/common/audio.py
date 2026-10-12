@@ -4,15 +4,26 @@ import torchaudio
 import librosa
 import numpy as np
 
+import soundfile as sf
+
 def load_wav(path_to_audio, sr=22050):
     """
     Load an audio waveform and resample to the target sample rate if needed.
     Returns 1D Tensor of audio samples.
     """
-    audio, orig_sr = torchaudio.load(path_to_audio)
-    if sr != orig_sr:
-        audio = torchaudio.functional.resample(audio, orig_freq=orig_sr, new_freq=sr)
-    return audio.squeeze(0)
+    try:
+        data, orig_sr = sf.read(path_to_audio, dtype='float32')
+        audio = torch.from_numpy(data)
+        if audio.ndim > 1:
+            audio = audio.mean(dim=-1)
+        if sr != orig_sr:
+            audio = torchaudio.functional.resample(audio, orig_freq=orig_sr, new_freq=sr)
+        return audio
+    except Exception:
+        audio, orig_sr = torchaudio.load(path_to_audio)
+        if sr != orig_sr:
+            audio = torchaudio.functional.resample(audio, orig_freq=orig_sr, new_freq=sr)
+        return audio.squeeze(0)
 
 def amp_to_db(x, min_db=-100.0):
     """
