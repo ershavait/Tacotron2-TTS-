@@ -9,6 +9,13 @@ from torch.optim.lr_scheduler import LambdaLR
 from transformers import set_seed
 from accelerate import Accelerator
 
+import multiprocessing
+if hasattr(multiprocessing, "set_start_method"):
+    try:
+        multiprocessing.set_start_method("fork")
+    except RuntimeError:
+        pass
+
 # Ensure project root is in sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
